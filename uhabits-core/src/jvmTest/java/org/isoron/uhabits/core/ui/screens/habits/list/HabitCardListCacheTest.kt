@@ -43,7 +43,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
         for (i in 0..9) {
             if (i == 3) habitList.add(fixtures.createLongHabit()) else habitList.add(fixtures.createShortHabit())
         }
-        cache = HabitCardListCache(habitList, commandRunner, taskRunner)
+        cache = HabitCardListCache(habitList, commandRunner, taskRunner, mock())
         cache.setCheckmarkCount(10)
         cache.refreshAllHabits()
         cache.onAttached()
@@ -70,7 +70,7 @@ class HabitCardListCacheTest : BaseUnitTest() {
     @Test
     fun testCommandListener_single() {
         val h2 = habitList.getByPosition(2)
-        commandRunner.run(CreateRepetitionCommand(habitList, h2, today, Entry.NO))
+        commandRunner.run(CreateRepetitionCommand(habitList, h2, today, Entry.NO, ""))
         verify(listener).onItemChanged(2)
         verify(listener).onRefreshFinished()
         verifyNoMoreInteractions(listener)

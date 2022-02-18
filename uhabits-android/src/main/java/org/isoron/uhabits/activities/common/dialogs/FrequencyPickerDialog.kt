@@ -21,7 +21,6 @@ package org.isoron.uhabits.activities.common.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
@@ -44,7 +43,7 @@ class FrequencyPickerDialog(
     constructor() : this(1, 1)
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val inflater = LayoutInflater.from(activity!!)
+        val inflater = LayoutInflater.from(requireActivity())
         contentView = inflater.inflate(R.layout.frequency_picker_dialog, null)
 
         addBeforeAfterText(
@@ -62,15 +61,19 @@ class FrequencyPickerDialog(
             contentView.xTimesPerMonthContainer,
         )
 
+        addBeforeAfterText(
+            this.getString(R.string.x_times_per_y_days),
+            contentView.xTimesPerYDaysContainer,
+        )
+
         contentView.everyDayRadioButton.setOnClickListener {
             check(contentView.everyDayRadioButton)
-            unfocusAll()
         }
 
         contentView.everyXDaysRadioButton.setOnClickListener {
             check(contentView.everyXDaysRadioButton)
             val everyXDaysTextView = contentView.everyXDaysTextView
-            focus(everyXDaysTextView)
+            selectInputField(everyXDaysTextView)
         }
 
         contentView.everyXDaysTextView.setOnFocusChangeListener { v, hasFocus ->
@@ -79,7 +82,7 @@ class FrequencyPickerDialog(
 
         contentView.xTimesPerWeekRadioButton.setOnClickListener {
             check(contentView.xTimesPerWeekRadioButton)
-            focus(contentView.xTimesPerWeekTextView)
+            selectInputField(contentView.xTimesPerWeekTextView)
         }
 
         contentView.xTimesPerWeekTextView.setOnFocusChangeListener { v, hasFocus ->
@@ -88,14 +91,27 @@ class FrequencyPickerDialog(
 
         contentView.xTimesPerMonthRadioButton.setOnClickListener {
             check(contentView.xTimesPerMonthRadioButton)
-            focus(contentView.xTimesPerMonthTextView)
+            selectInputField(contentView.xTimesPerMonthTextView)
         }
 
         contentView.xTimesPerMonthTextView.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) check(contentView.xTimesPerMonthRadioButton)
         }
 
-        return AlertDialog.Builder(activity!!)
+        contentView.xTimesPerYDaysRadioButton.setOnClickListener {
+            check(contentView.xTimesPerYDaysRadioButton)
+            selectInputField(contentView.xTimesPerYDaysXTextView)
+        }
+
+        contentView.xTimesPerYDaysXTextView.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) check(contentView.xTimesPerYDaysRadioButton)
+        }
+
+        contentView.xTimesPerYDaysYTextView.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) check(contentView.xTimesPerYDaysRadioButton)
+        }
+
+        return AlertDialog.Builder(requireActivity())
             .setView(contentView)
             .setPositiveButton(R.string.save) { _, _ -> onSaveClicked() }
             .create()
@@ -106,12 +122,11 @@ class FrequencyPickerDialog(
         container: LinearLayout
     ) {
         val parts = str.split("%d")
-        container.addView(
-            TextView(activity).apply { text = parts[0].trim() }, 1,
-        )
-        container.addView(
-            TextView(activity).apply { text = parts[1].trim() }, 3,
-        )
+        for (i in parts.indices) {
+            container.addView(
+                TextView(activity).apply { text = parts[i].trim() }, 2 * i + 1,
+            )
+        }
     }
 
     private fun onSaveClicked() {
@@ -132,6 +147,12 @@ class FrequencyPickerDialog(
                     denominator = 7
                 }
             }
+            contentView.xTimesPerYDaysRadioButton.isChecked -> {
+                if (contentView.xTimesPerYDaysXTextView.text.isNotEmpty() && contentView.xTimesPerYDaysYTextView.text.isNotEmpty()) {
+                    numerator = Integer.parseInt(contentView.xTimesPerYDaysXTextView.text.toString())
+                    denominator = Integer.parseInt(contentView.xTimesPerYDaysYTextView.text.toString())
+                }
+            }
             else -> {
                 if (contentView.xTimesPerMonthTextView.text.isNotEmpty()) {
                     numerator = Integer.parseInt(contentView.xTimesPerMonthTextView.text.toString())
@@ -147,10 +168,10 @@ class FrequencyPickerDialog(
         dismiss()
     }
 
-    private fun check(view: RadioButton?) {
+    private fun check(view: RadioButton) {
         uncheckAll()
-        view?.isChecked = true
-        view?.requestFocus()
+        view.isChecked = true
+        view.requestFocus()
     }
 
     override fun onResume() {
@@ -160,32 +181,34 @@ class FrequencyPickerDialog(
 
     private fun populateViews() {
         uncheckAll()
-        if (freqNumerator == 1) {
-            if (freqDenominator == 1) {
-                contentView.everyDayRadioButton.isChecked = true
-            } else {
-                contentView.everyXDaysRadioButton.isChecked = true
-                contentView.everyXDaysTextView.setText(freqDenominator.toString())
-                focus(contentView.everyXDaysTextView)
-            }
+        if (freqDenominator == 30 || freqDenominator == 31) {
+            contentView.xTimesPerMonthRadioButton.isChecked = true
+            contentView.xTimesPerMonthTextView.setText(freqNumerator.toString())
+            selectInputField(contentView.xTimesPerMonthTextView)
         } else {
-            if (freqDenominator == 7) {
-                contentView.xTimesPerWeekRadioButton.isChecked = true
-                contentView.xTimesPerWeekTextView.setText(freqNumerator.toString())
-                focus(contentView.xTimesPerWeekTextView)
-            } else if (freqDenominator == 30 || freqDenominator == 31) {
-                contentView.xTimesPerMonthRadioButton.isChecked = true
-                contentView.xTimesPerMonthTextView.setText(freqNumerator.toString())
-                focus(contentView.xTimesPerMonthTextView)
+            if (freqNumerator == 1) {
+                if (freqDenominator == 1) {
+                    contentView.everyDayRadioButton.isChecked = true
+                } else {
+                    contentView.everyXDaysRadioButton.isChecked = true
+                    contentView.everyXDaysTextView.setText(freqDenominator.toString())
+                    selectInputField(contentView.everyXDaysTextView)
+                }
             } else {
-                Log.w("FrequencyPickerDialog", "Unknown frequency: $freqNumerator/$freqDenominator")
-                contentView.everyDayRadioButton.isChecked = true
+                if (freqDenominator == 7) {
+                    contentView.xTimesPerWeekRadioButton.isChecked = true
+                    contentView.xTimesPerWeekTextView.setText(freqNumerator.toString())
+                    selectInputField(contentView.xTimesPerWeekTextView)
+                } else {
+                    contentView.xTimesPerYDaysRadioButton.isChecked = true
+                    contentView.xTimesPerYDaysXTextView.setText(freqNumerator.toString())
+                    contentView.xTimesPerYDaysYTextView.setText(freqDenominator.toString())
+                }
             }
         }
     }
 
-    private fun focus(view: EditText) {
-        view.requestFocus()
+    private fun selectInputField(view: EditText) {
         view.setSelection(view.text.length)
     }
 
@@ -194,11 +217,6 @@ class FrequencyPickerDialog(
         contentView.everyXDaysRadioButton.isChecked = false
         contentView.xTimesPerWeekRadioButton.isChecked = false
         contentView.xTimesPerMonthRadioButton.isChecked = false
-    }
-
-    private fun unfocusAll() {
-        contentView.everyXDaysTextView.clearFocus()
-        contentView.xTimesPerWeekTextView.clearFocus()
-        contentView.xTimesPerMonthTextView.clearFocus()
+        contentView.xTimesPerYDaysRadioButton.isChecked = false
     }
 }

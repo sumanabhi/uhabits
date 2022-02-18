@@ -21,8 +21,10 @@ package org.isoron.uhabits.core.ui.screens.habits.show.views
 
 import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
+import org.isoron.uhabits.core.models.NumericalHabitType
 import org.isoron.uhabits.core.models.PaletteColor
 import org.isoron.uhabits.core.models.Reminder
+import org.isoron.uhabits.core.ui.views.Theme
 
 data class SubtitleCardState(
     val color: PaletteColor,
@@ -30,14 +32,17 @@ data class SubtitleCardState(
     val isNumerical: Boolean,
     val question: String,
     val reminder: Reminder?,
-    val targetValue: Double,
-    val unit: String,
+    val targetValue: Double = 0.0,
+    val targetType: NumericalHabitType = NumericalHabitType.AT_LEAST,
+    val unit: String = "",
+    val theme: Theme,
 )
 
 class SubtitleCardPresenter {
     companion object {
         fun buildState(
             habit: Habit,
+            theme: Theme,
         ): SubtitleCardState = SubtitleCardState(
             color = habit.color,
             frequency = habit.frequency,
@@ -45,7 +50,9 @@ class SubtitleCardPresenter {
             question = habit.question,
             reminder = habit.reminder,
             targetValue = habit.targetValue,
+            targetType = habit.targetType,
             unit = habit.unit,
+            theme = theme,
         )
     }
 }

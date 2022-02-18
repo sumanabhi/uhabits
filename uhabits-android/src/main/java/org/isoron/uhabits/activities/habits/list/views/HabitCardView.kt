@@ -33,6 +33,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.TextView
+import org.isoron.platform.gui.toInt
 import org.isoron.uhabits.R
 import org.isoron.uhabits.activities.common.views.RingView
 import org.isoron.uhabits.core.models.Habit
@@ -41,9 +42,9 @@ import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.screens.habits.list.ListHabitsBehavior
 import org.isoron.uhabits.core.utils.DateUtils
 import org.isoron.uhabits.inject.ActivityContext
+import org.isoron.uhabits.utils.currentTheme
 import org.isoron.uhabits.utils.dp
 import org.isoron.uhabits.utils.sres
-import org.isoron.uhabits.utils.toThemedAndroidColor
 import javax.inject.Inject
 
 class HabitCardViewFactory
@@ -55,6 +56,12 @@ class HabitCardViewFactory
 ) {
     fun create() = HabitCardView(context, checkmarkPanelFactory, numberPanelFactory, behavior)
 }
+
+data class DelayedToggle(
+    var habit: Habit,
+    var timestamp: Timestamp,
+    var value: Int
+)
 
 class HabitCardView(
     @ActivityContext context: Context,
@@ -114,11 +121,21 @@ class HabitCardView(
             numberPanel.threshold = value
         }
 
+    var notesIndicators
+        get() = checkmarkPanel.notesIndicators
+        set(values) {
+            checkmarkPanel.notesIndicators = values
+            numberPanel.notesIndicators = values
+        }
+
     var checkmarkPanel: CheckmarkPanelView
     private var numberPanel: NumberPanelView
     private var innerFrame: LinearLayout
     private var label: TextView
     private var scoreRing: RingView
+
+    private var currentToggleTaskId = 0
+    private var queuedToggles = mutableListOf<DelayedToggle>()
 
     init {
         scoreRing = RingView(context).apply {
@@ -142,7 +159,14 @@ class HabitCardView(
         checkmarkPanel = checkmarkPanelFactory.create().apply {
             onToggle = { timestamp, value ->
                 triggerRipple(timestamp)
-                habit?.let { behavior.onToggle(it, timestamp, value) }
+                habit?.let {
+                    val taskId = queueToggle(it, timestamp, value);
+                    { runPendingToggles(taskId) }.delay(TOGGLE_DELAY_MILLIS)
+                }
+            }
+            onEdit = { timestamp ->
+                triggerRipple(timestamp)
+                habit?.let { behavior.onEdit(it, timestamp) }
             }
         }
 
@@ -176,6 +200,24 @@ class HabitCardView(
         val margin = dp(3f).toInt()
         setPadding(margin, 0, margin, margin)
         addView(innerFrame)
+    }
+
+    @Synchronized
+    private fun runPendingToggles(id: Int) {
+        if (currentToggleTaskId != id) return
+        for ((h, t, v) in queuedToggles) behavior.onToggle(h, t, v)
+        queuedToggles.clear()
+    }
+
+    @Synchronized
+    private fun queueToggle(
+        it: Habit,
+        timestamp: Timestamp,
+        value: Int
+    ): Int {
+        currentToggleTaskId += 1
+        queuedToggles.add(DelayedToggle(it, timestamp, value))
+        return currentToggleTaskId
     }
 
     override fun onModelChange() {
@@ -213,7 +255,7 @@ class HabitCardView(
         fun getActiveColor(habit: Habit): Int {
             return when (habit.isArchived) {
                 true -> sres.getColor(R.attr.contrast60)
-                false -> habit.color.toThemedAndroidColor(context)
+                false -> currentTheme().color(habit.color).toInt()
             }
         }
 
@@ -235,6 +277,7 @@ class HabitCardView(
         numberPanel.apply {
             color = c
             units = h.unit
+            targetType = h.targetType
             threshold = h.targetValue
             visibility = when (h.isNumerical) {
                 true -> View.VISIBLE
@@ -260,5 +303,13 @@ class HabitCardView(
             false -> R.drawable.ripple
         }
         innerFrame.setBackgroundResource(background)
+    }
+
+    companion object {
+        const val TOGGLE_DELAY_MILLIS = 2000L
+
+        fun (() -> Unit).delay(delayInMillis: Long) {
+            Handler(Looper.getMainLooper()).postDelayed(this, delayInMillis)
+        }
     }
 }

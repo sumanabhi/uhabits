@@ -79,7 +79,6 @@
     <string name="interval_always_ask">Uvek pitaj</string>
     <string name="interval_custom">Prilagođeno...</string>
     <string name="pref_toggle_title">Menjaj stanje dodirom</string>
-    <string name="pref_toggle_description">Stavlja kvačice dodirom umesto dugog pritiska. Zgodnije, ali može slučajno doći do prebacivanja.</string>
     <string name="pref_rate_this_app">Oceni aplikaciju</string>
     <string name="pref_send_feedback">Povratne informacije</string>
     <string name="pref_view_source_code">Izvorni kôd na Githabu</string>
@@ -172,7 +171,6 @@
     <string name="by_status">po stanju</string>
     <string name="export">Izvoz</string>
     <string name="long_press_to_edit">Dug pritisak za promenu vrednosti</string>
-    <string name="change_value">Izmeni vrednost</string>
     <string name="calendar">Kalendar</string>
     <string name="unit">Jedinica</string>
     <string name="example_question_boolean">npr. Da li ste vežbali danas?</string>

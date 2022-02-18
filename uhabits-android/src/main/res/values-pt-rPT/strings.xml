@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop - Acompanhador de Hábitos</string>
     <string name="main_activity_title">Hábitos</string>
     <string name="action_settings">Definições</string>
@@ -28,15 +28,10 @@
     <string name="add_habit">Adicionar hábito</string>
     <string name="color_picker_default_title">Alterar a cor</string>
     <string name="toast_habit_created">Hábito criado</string>
-    <string name="toast_habit_deleted">Hábito eliminado</string>
-    <string name="toast_habit_changed">Hábito alterado</string>
-    <string name="toast_habit_archived">Hábito arquivado</string>
-    <string name="toast_habit_unarchived">Hábito desarquivado</string>
     <string name="overview">Visão geral</string>
     <string name="habit_strength">Pontuação</string>
     <string name="history">Histórico</string>
     <string name="clear">Limpar</string>
-    <string name="days">dias</string>
     <string name="reminder">Lembrete</string>
     <string name="save">Guardar</string>
     <string name="streaks">Séries</string>
@@ -63,21 +58,16 @@
     <string name="interval_always_ask">Perguntar sempre</string>
     <string name="interval_custom">Personalizar...</string>
     <string name="pref_toggle_title">Toque para alternar entre repetições</string>
-    <string name="pref_toggle_description">Mais conveniente, mas pode causar toques acidentais</string>
-    <string name="pref_snooze_interval_title">Intervalo da opção \'Mais Tarde\' nos lembretes</string>
     <string name="pref_rate_this_app">Avaliar a app no Google Play</string>
     <string name="pref_send_feedback">Enviar feedback ao programador</string>
     <string name="pref_view_source_code">Ver código-fonte no GitHub</string>
     <string name="links">Hiperligações</string>
     <string name="name">Nome</string>
     <string name="settings">Definições</string>
-    <string name="snooze_interval">Intervalo da opção \'Mais Tarde\'</string>
     <string name="select_snooze_delay">Definir tempo de suspensão</string>
     <string name="hint_title">Sabia que?</string>
     <string name="hint_drag">Para reorganizar a lista, mantenha pressionado o nome do hábito e arraste-o para o lugar certo.</string>
     <string name="hint_landscape">Pode ver mais dias se utilizar o telemóvel em modo paisagem.</string>
-    <string name="delete_habits">Apagar hábitos</string>
-    <string name="delete_habits_message">Os hábitos serão permanentemente eliminados. Esta ação é irreversível.</string>
     <string name="habit_not_found">Hábito eliminado / não encontrado</string>
     <string name="weekends">Fins de Semana</string>
     <string name="any_weekday">Segunda a Sexta</string>
@@ -149,7 +139,6 @@
     <string name="by_score">Por pontuação</string>
     <string name="export">Exportar</string>
     <string name="long_press_to_edit">Pressione e segure para alterar o valor</string>
-    <string name="change_value">Alterar o valor</string>
     <string name="calendar">Calendário</string>
     <string name="unit">Unidade</string>
     <string name="example_question_boolean">ex.: Você se exercitou hoje?</string>
@@ -170,15 +159,15 @@
     <string name="example_notes">(Opcional)</string>
     <string name="yes_or_no_example">ex. Acordou cedo hoje? Fez exercício? Jogou xadrez?</string>
     <string name="measurable">Mensurável</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">ex. Quantos km você correu hoje? Quantas páginas leu? Quantas calorias ingeriu?</string>
     <string name="x_times_per_week">%d vezes por semana</string>
     <string name="x_times_per_month">%d vezes por mês</string>
+    <string name="x_times_per_y_days">%d vezes em %d dias</string>
     <string name="yes_or_no_short_example">ex. Exercício</string>
     <string name="color">Cor</string>
     <string name="example_target">ex. 15</string>
     <string name="measurable_short_example">ex. Correr</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">ex. Quantas km você correu hoje?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">ex. km</string>
+    <string name="measurable_question_example">ex. Quantas km você correu hoje?</string>
+    <string name="measurable_units_example">ex. km</string>
     <string name="every_month">Todos os meses</string>
     <string name="validation_cannot_be_blank">Não pode ficar em branco</string>
     <string name="today">Hoje</string>

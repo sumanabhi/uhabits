@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,30 +17,26 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">عادات</string>
     <string name="action_settings">إعدادات</string>
     <string name="edit">تعديل</string>
     <string name="delete">حذف</string>
-    <string name="archive">أرشفة</string>
+    <string name="archive">أرشيف</string>
     <string name="unarchive">إزالة من الأرشيف</string>
     <string name="add_habit">إضافة عادة</string>
     <string name="color_picker_default_title">تغيير اللون</string>
     <string name="toast_habit_created">تم إنشاء عادة</string>
-    <string name="toast_habit_deleted">تم حذف العادات</string>
-    <string name="toast_habit_changed">تم تغيير عادة</string>
-    <string name="toast_habit_archived">تم أرشفه العادات   </string>
-    <string name="toast_habit_unarchived">تم الغاء ارشفه العادات   </string>
     <string name="overview">نظرة عامة</string>
     <string name="habit_strength">قوة العادة</string>
     <string name="history">السجل</string>
     <string name="clear">إزالة</string>
-    <string name="days">أيام</string>
     <string name="reminder">تذكير</string>
     <string name="save">حفظ</string>
     <string name="streaks">الإنجازات   </string>
     <string name="no_habits_found"> لا يوجد لديك عادات مفعله</string>
+    <string name="no_habits_left_to_do">لقد أنهيت ألعمل لليوم</string>
     <string name="long_press_to_toggle">إلمس و إستمر لتحقق أو ازل.   </string>
     <string name="reminder_off">إيقاف</string>
     <string name="create_habit">انشاء العادة</string>
@@ -52,32 +48,28 @@
     <string name="intro_title_2">إنشاء بعض عادات جديدة</string>
     <string name="intro_description_2">كل يوم، بعد أداء عادتك، ضع علامة عليها في التطبيق.</string>
     <string name="intro_title_4">تتبع تقدمك</string>
-    <string name="intro_description_4">رسوم بيانية مفصلة تُريك كيف تحسنت عاداتك مع مرور الوقت.</string>
+    <string name="intro_description_4">رسوم بيانية مفصلة تُريك كيف تحسنت عاداتك مع مرور الوقت.  </string>
     <string name="interval_15_minutes">15 دقيقة</string>
     <string name="interval_30_minutes">30 دقيقة</string>
     <string name="interval_1_hour">ساعة واحدة</string>
     <string name="interval_2_hour">ساعتان</string>
     <string name="interval_4_hour">أربع ساعات</string>
     <string name="interval_8_hour">8 ساعات</string>
-    <string name="interval_24_hour">٢٤ ساعة</string>
+    <string name="interval_24_hour">24 ساعة</string>
     <string name="interval_always_ask">اسأل دائماً   </string>
     <string name="interval_custom">مخصص...   </string>
     <string name="pref_toggle_title">تبديل وضعية العادة بضغطة قصيرة   </string>
-    <string name="pref_toggle_description">وضع علامات الاختيار الموجودة بنقرة واحدة بدلاً من الصحافة وعقد. أكثر ملاءمة، ولكن قد يتسبب في تبديل عرضي.   </string>
-    <string name="pref_snooze_interval_title">فترتي الغفوى على التذكير   </string>
+    <string name="pref_toggle_description_2">ضع علامات اختيار بنقرة واحدة بدلاً من الضغط مع الاستمرار.</string>
     <string name="pref_rate_this_app">تقييم هذا التطبيق على جوجل بلاي   </string>
     <string name="pref_send_feedback">أرسل الملاحظات إلى المطور   </string>
     <string name="pref_view_source_code">إفحص التعليمات البرمجية على GitHub   </string>
-    <string name="links">روابط   </string>
+    <string name="links">روابط </string>
     <string name="name">اسم  </string>
     <string name="settings">إعدادات</string>
-    <string name="snooze_interval">فترتي الغفوه   </string>
     <string name="select_snooze_delay">حدد تأخير الغفوة   </string>
     <string name="hint_title">هل كنت تعلم؟  </string>
     <string name="hint_drag">لإعادة ترتيب القوائم، أضغط اسم من هذه العادة، ثم اسحبه إلى المكان الصحيح.   </string>
     <string name="hint_landscape">يمكنك ان ترى المزيد أيام عن طريق وضع الهاتف في وضع أفقي.   </string>
-    <string name="delete_habits">حذف عادات   </string>
-    <string name="delete_habits_message">سيتم حذف عادات بشكل دائم. هذا العمل لا يمكن التراجع عنه.   </string>
     <string name="habit_not_found">العادة حذفت/لم يتم العثور عليها   </string>
     <string name="weekends">عطلة نهاية الأسبوع  </string>
     <string name="any_weekday">أيام الأسبوع. </string>
@@ -121,7 +113,7 @@
     <string name="week">أسبوع. </string>
     <string name="month">شهر. </string>
     <string name="quarter">ربع سنه. </string>
-    <string name="year">عام. </string>
+    <string name="year">عام</string>
     <string name="total">المجموع. </string>
     <string name="yes_or_no">نعم أو لا </string>
     <string name="every_x_days">كل %d أيام </string>
@@ -131,6 +123,7 @@
     <string name="none">صامت </string>
     <string name="filter">تصنيف </string>
     <string name="hide_completed">إخفاء المكتملة </string>
+    <string name="hide_entered">إخفاء المُدخل</string>
     <string name="hide_archived">إخفاء المؤرشفة </string>
     <string name="sticky_notifications">جعل الإشعارات ثابتة </string>
     <string name="sticky_notifications_description">منع الإشعارات من تمريرها بعيداً. </string>
@@ -147,11 +140,15 @@
     <string name="by_name">حسب الإسم </string>
     <string name="by_color">حسب اللون </string>
     <string name="by_score">حسب النقاط </string>
+    <string name="by_status">حسب الحالة</string>
     <string name="export">استخراج </string>
     <string name="long_press_to_edit">اضغط مع الاستمرار لتغيرالقيمه</string>
-    <string name="change_value">تغيير القيمة </string>
+    <string name="value">القيمة</string>
     <string name="calendar">التقويم </string>
     <string name="unit">الوحدة </string>
+    <string name="target_type">نوع الهدف</string>
+    <string name="target_type_at_least">على الأقل</string>
+    <string name="target_type_at_most">على الأكثر</string>
     <string name="example_question_boolean">على سبيل المثال هل تمرنت اليوم؟ </string>
     <string name="question">السؤال </string>
     <string name="target">الهدف </string>
@@ -170,16 +167,31 @@
     <string name="example_notes">(اختياري)</string>
     <string name="yes_or_no_example">مثلا: هل استيقظت باكرا اليوم؟ هل مارست الرياضة؟ هل لعبت الشطرنج؟</string>
     <string name="measurable">قابل للقياس</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">مثلا: كم كيلومتراً قطعته اليوم؟ كم صفحة قرأتها؟ كم عدد السعرات الحرارية التي أكلتها؟</string>
+    <string name="measurable_example">مثال، كم ميلاً قطعته اليوم؟ كم عدد الصفحات التي قرأتها؟</string>
     <string name="x_times_per_week">%d مرة في الأسبوع</string>
     <string name="x_times_per_month">%d مرة في الشهر</string>
+    <string name="x_times_per_y_days">%d مرات في %d أيام</string>
     <string name="yes_or_no_short_example">مثال: التمرين</string>
     <string name="color">اللون</string>
     <string name="example_target">مثال: 15</string>
     <string name="measurable_short_example">مثلا: الجري</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">مثلا: كم كيلومترًا جريته اليوم؟</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">مثلا: كيلومترات</string>
+    <string name="measurable_question_example">مثلا: كم كيلومترًا جريته اليوم؟</string>
+    <string name="measurable_units_example">مثلا: كيلومترات</string>
     <string name="every_month">كل شهر</string>
     <string name="validation_cannot_be_blank">لا يمكن أن يكون الإسم فارغًا</string>
     <string name="today">اليوم</string>
+    <string name="enter">ادخل</string>
+    <string name="no_habits">لا توجد عادات</string>
+    <string name="no_numerical_habits">لا توجد عادات قابلة للقياس</string>
+    <string name="no_boolean_habits">لا توجد عادات تجاوب بنعم أو لا</string>
+    <string name="increment">زيادة</string>
+    <string name="decrement">إنقاص</string>
+    <string name="pref_skip_title">تمكين أيام التخطي</string>
+    <string name="pref_skip_description">بدّل مرتين لإضافة تخطي بدلاً من علامة اختيار. التخطيات تحافظ على درجاتك دون تغيير أو خسارة سلسلة الانتصارات.</string>
+    <string name="pref_unknown_title">إظهار علامات الاستفهام للبيانات المفقودة</string>
+    <string name="pref_unknown_description">التفريق بين الأيام التي لا تحتوي على بيانات من الهفوات الفعلية. للدخول في اللقطات المتتابعة ، قم بالتبديل مرتين.</string>
+    <string name="you_are_now_a_developer">أنت الآن مطوَِر برمجيات!</string>
+    <string name="activity_not_found">لم يتم العثور على تطبيق لإتمام هذا الإجراء</string>
+    <string name="pref_midnight_delay_title">تمديد اليوم بضع ساعات بعد منتصف الليل</string>
+    <string name="pref_midnight_delay_description">انتظر حتى 3:00 صباحاً لعرض يوم جديد. مفيد إذا كنت عادة تذهب إلى السكون بعد منتصف الليل. يتطلب إعادة تشغيل التطبيق.</string>
 </resources>

@@ -21,6 +21,7 @@ package org.isoron.uhabits.core.models
 data class Entry(
     val timestamp: Timestamp,
     val value: Int,
+    val notes: String = "",
 ) {
     companion object {
         /**
@@ -50,19 +51,18 @@ data class Entry(
          */
         const val UNKNOWN = -1
 
-        fun nextToggleValueWithSkip(value: Int): Int {
+        fun nextToggleValue(
+            value: Int,
+            isSkipEnabled: Boolean,
+            areQuestionMarksEnabled: Boolean
+        ): Int {
             return when (value) {
-                NO, UNKNOWN, YES_AUTO -> YES_MANUAL
-                YES_MANUAL -> SKIP
+                YES_AUTO -> YES_MANUAL
+                YES_MANUAL -> if (isSkipEnabled) SKIP else NO
                 SKIP -> NO
-                else -> NO
-            }
-        }
-
-        fun nextToggleValueWithoutSkip(value: Int): Int {
-            return when (value) {
-                NO, UNKNOWN, YES_AUTO -> YES_MANUAL
-                else -> NO
+                NO -> if (areQuestionMarksEnabled) UNKNOWN else YES_MANUAL
+                UNKNOWN -> YES_MANUAL
+                else -> YES_MANUAL
             }
         }
     }

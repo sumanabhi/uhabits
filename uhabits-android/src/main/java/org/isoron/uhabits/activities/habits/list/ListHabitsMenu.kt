@@ -39,7 +39,7 @@ class ListHabitsMenu @Inject constructor(
     @ActivityContext context: Context,
     private val preferences: Preferences,
     private val themeSwitcher: ThemeSwitcher,
-    private val behavior: ListHabitsMenuBehavior
+    val behavior: ListHabitsMenuBehavior
 ) {
     val activity = (context as AppCompatActivity)
 
@@ -52,6 +52,11 @@ class ListHabitsMenu @Inject constructor(
         nightModeItem.isChecked = themeSwitcher.isNightMode
         hideArchivedItem.isChecked = !preferences.showArchived
         hideCompletedItem.isChecked = !preferences.showCompleted
+        if (preferences.areQuestionMarksEnabled || preferences.isSkipEnabled) {
+            hideCompletedItem.title = activity.resources.getString(R.string.hide_entered)
+        } else {
+            hideCompletedItem.title = activity.resources.getString(R.string.hide_completed)
+        }
         updateArrows(menu)
     }
 

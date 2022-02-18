@@ -100,7 +100,7 @@ open class EntryList {
             val intervals = buildIntervals(frequency, original)
             snapIntervalsTogether(intervals)
             val computed = buildEntriesFromInterval(original, intervals)
-            computed.filter { it.value != UNKNOWN }.forEach { add(it) }
+            computed.filter { it.value != UNKNOWN || it.notes.isNotEmpty() }.forEach { add(it) }
         }
     }
 
@@ -248,8 +248,17 @@ open class EntryList {
             for (i in num - 1 until filtered.size) {
                 val (begin, _) = filtered[i]
                 val (center, _) = filtered[i - num + 1]
-                if (begin.daysUntil(center) < den) {
-                    val end = begin.plus(den - 1)
+                var size = den
+                if (den == 30 || den == 31) {
+                    val beginDate = begin.toLocalDate()
+                    size = if (beginDate.day == beginDate.monthLength) {
+                        beginDate.plus(1).monthLength
+                    } else {
+                        beginDate.monthLength
+                    }
+                }
+                if (begin.daysUntil(center) < size) {
+                    val end = begin.plus(size - 1)
                     intervals.add(Interval(begin, center, end))
                 }
             }

@@ -37,9 +37,9 @@ import org.isoron.uhabits.core.models.Entry.Companion.YES_AUTO
 import org.isoron.uhabits.core.models.Entry.Companion.YES_MANUAL
 import org.isoron.uhabits.core.preferences.Preferences
 import org.isoron.uhabits.inject.ActivityContext
-import org.isoron.uhabits.utils.dim
+import org.isoron.uhabits.utils.drawNotesIndicator
 import org.isoron.uhabits.utils.getFontAwesome
-import org.isoron.uhabits.utils.showMessage
+import org.isoron.uhabits.utils.sp
 import org.isoron.uhabits.utils.sres
 import org.isoron.uhabits.utils.toMeasureSpec
 import javax.inject.Inject
@@ -71,7 +71,15 @@ class CheckmarkButtonView(
             invalidate()
         }
 
+    var hasNotes = false
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     var onToggle: (Int) -> Unit = {}
+
+    var onEdit: () -> Unit = {}
     private var drawer = Drawer()
 
     init {
@@ -81,11 +89,11 @@ class CheckmarkButtonView(
     }
 
     fun performToggle() {
-        value = if (preferences.isSkipEnabled) {
-            Entry.nextToggleValueWithSkip(value)
-        } else {
-            Entry.nextToggleValueWithoutSkip(value)
-        }
+        value = Entry.nextToggleValue(
+            value = value,
+            isSkipEnabled = preferences.isSkipEnabled,
+            areQuestionMarksEnabled = preferences.areQuestionMarksEnabled
+        )
         onToggle(value)
         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS)
         invalidate()
@@ -93,11 +101,12 @@ class CheckmarkButtonView(
 
     override fun onClick(v: View) {
         if (preferences.isShortToggleEnabled) performToggle()
-        else showMessage(resources.getString(R.string.long_press_to_toggle))
+        else onEdit()
     }
 
     override fun onLongClick(v: View): Boolean {
-        performToggle()
+        if (preferences.isShortToggleEnabled) onEdit()
+        else performToggle()
         return true
     }
 
@@ -131,7 +140,7 @@ class CheckmarkButtonView(
             paint.color = when (value) {
                 YES_MANUAL, YES_AUTO, SKIP -> color
                 NO -> {
-                    if (preferences.areQuestionMarksEnabled()) mediumContrastColor
+                    if (preferences.areQuestionMarksEnabled) mediumContrastColor
                     else lowContrastColor
                 }
                 else -> lowContrastColor
@@ -140,10 +149,15 @@ class CheckmarkButtonView(
                 SKIP -> R.string.fa_skipped
                 NO -> R.string.fa_times
                 UNKNOWN -> {
-                    if (preferences.areQuestionMarksEnabled()) R.string.fa_question
+                    if (preferences.areQuestionMarksEnabled) R.string.fa_question
                     else R.string.fa_times
                 }
                 else -> R.string.fa_check
+            }
+            paint.textSize = when {
+                id == R.string.fa_question -> sp(12.0f)
+                value == YES_AUTO -> sp(13.0f)
+                else -> sp(14.0f)
             }
             if (value == YES_AUTO) {
                 paint.strokeWidth = 5f
@@ -151,11 +165,6 @@ class CheckmarkButtonView(
             } else {
                 paint.strokeWidth = 0f
                 paint.style = Paint.Style.FILL
-            }
-
-            paint.textSize = when (value) {
-                UNKNOWN -> dim(R.dimen.smallerTextSize)
-                else -> dim(R.dimen.smallTextSize)
             }
 
             val label = resources.getString(id)
@@ -170,6 +179,8 @@ class CheckmarkButtonView(
                 paint.style = Paint.Style.FILL
                 canvas.drawText(label, rect.centerX(), rect.centerY(), paint)
             }
+
+            drawNotesIndicator(canvas, color, em, hasNotes)
         }
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2016 Álinson Santos Xavier <isoron@gmail.com>
+  ~ Copyright (C) 2016-2021 Álinson Santos Xavier <git@axavier.org>
   ~
   ~ This file is part of Loop Habit Tracker.
   ~
@@ -17,7 +17,7 @@
   ~ You should have received a copy of the GNU General Public License along
   ~ with this program. If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name">Loop Habit Tracker</string>
     <string name="main_activity_title">Návyky</string>
     <string name="action_settings">Nastavenia</string>
@@ -28,19 +28,21 @@
     <string name="add_habit">Pridaj návyk</string>
     <string name="color_picker_default_title">Zmeniť farbu</string>
     <string name="toast_habit_created">Návyk vytvorený</string>
-    <string name="toast_habit_deleted">Návyky zmazané</string>
-    <string name="toast_habit_changed">Návyk zmenený</string>
-    <string name="toast_habit_archived">Návyky dosiahnuté</string>
-    <string name="toast_habit_unarchived">Návyky nedosiahnuté</string>
+    <plurals name="toast_habits_changed">
+        <item quantity="one">Návyk zmenený</item>
+        <item quantity="few">Návyky zmenené</item>
+        <item quantity="many">Návykov zmenených</item>
+        <item quantity="other">Návykov zmenených</item>
+    </plurals>
     <string name="overview">Prehľad</string>
     <string name="habit_strength">Sila návyku</string>
     <string name="history">História</string>
     <string name="clear">Zmazať</string>
-    <string name="days">dní</string>
     <string name="reminder">Pripomienka</string>
     <string name="save">Uložiť</string>
     <string name="streaks">Série</string>
     <string name="no_habits_found">Nemáte žiadne aktívne návyky</string>
+    <string name="no_habits_left_to_do">Na dnes máte všetko hotové!</string>
     <string name="long_press_to_toggle">Stlačením a podržaním začiarknite alebo zrušte začiarknutie políčka</string>
     <string name="reminder_off">Vypnuté</string>
     <string name="create_habit">Vytvoriť návyk</string>
@@ -63,21 +65,16 @@
     <string name="interval_always_ask">Vždy sa spýtať</string>
     <string name="interval_custom">Vlastné ...</string>
     <string name="pref_toggle_title">Prepnúť krátkym stlačením</string>
-    <string name="pref_toggle_description">Pridajte začiarknutie jediným klepnutím namiesto stlačenia a podržania. Je to pohodlnejšie, ale môže dôjsť k náhodným prepnutiam.</string>
-    <string name="pref_snooze_interval_title">Interval odloženia pripomienok</string>
     <string name="pref_rate_this_app">Ohodnoťte túto aplikáciu na Google Play</string>
     <string name="pref_send_feedback">Odošlite spätnú väzbu vývojárovi</string>
     <string name="pref_view_source_code">Zobraziť zdrojový kód na stránke GitHub</string>
     <string name="links">Odkazy</string>
     <string name="name">Názov</string>
     <string name="settings">Nastavenia</string>
-    <string name="snooze_interval">Interval odloženia</string>
     <string name="select_snooze_delay">Nastaviť dĺžku odloženia</string>
     <string name="hint_title">Vedeli ste?</string>
     <string name="hint_drag">Pre zmenu usporiadania záznamov, stlačte a podržte názov návyku a potom ho presuňte na správne miesto.</string>
     <string name="hint_landscape">Môžete vidieť viac dní otočením telefónu do režimu na šírku.</string>
-    <string name="delete_habits">Zmazať návyky</string>
-    <string name="delete_habits_message">Návyky budú natrvalo odstránené. Túto akciu nie je možné vrátiť späť.</string>
     <string name="habit_not_found">Návyk bol odstránený / nenájdený</string>
     <string name="weekends">Víkendy</string>
     <string name="any_weekday">Od pondelka do piatku</string>
@@ -147,9 +144,9 @@
     <string name="by_name">Podľa názvu</string>
     <string name="by_color">Podľa farby</string>
     <string name="by_score">Podľa skóre</string>
+    <string name="by_status">Podľa stavu</string>
     <string name="export">Exportovať</string>
     <string name="long_press_to_edit">Stlačením a podržaním zmeníte hodnotu</string>
-    <string name="change_value">Zmeniť hodnotu</string>
     <string name="calendar">Kalendár</string>
     <string name="unit">Jednotka</string>
     <string name="example_question_boolean">napr. Cvičili ste dnes?</string>
@@ -170,16 +167,28 @@
     <string name="example_notes">(voliteľné)</string>
     <string name="yes_or_no_example">napr. Zobudili ste sa dnes skoro? Cvičili ste? Hrali ste šach?</string>
     <string name="measurable">Merateľné</string>
-    <string name="measurable_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot;">napr. Koľko kilometrov ste dnes zabehli? Koľko stránok ste čítali? Koľko kalórií ste zjedli?</string>
+    <string name="measurable_example">napr. Koľko kilometrov ste dnes nabehali? Koľko strán ste prečítali?</string>
     <string name="x_times_per_week">%d krát týždenne</string>
     <string name="x_times_per_month">%d krát za mesiac</string>
     <string name="yes_or_no_short_example">napr. Cvičenie</string>
     <string name="color">Farba</string>
     <string name="example_target">napr. 15</string>
     <string name="measurable_short_example">napr. Beh</string>
-    <string name="measurable_question_example" comment="Feel free to replace &quot;miles&quot; by &quot;km&quot; if that is more common in your country">napr. Koľko míľ ste dnes prešli?</string>
-    <string name="measurable_units_example" comment="Feel free to replace by &quot;km&quot; if that is more common in your country">napr. míle</string>
+    <string name="measurable_question_example">napr. Koľko kilometrov ste dnes prešli?</string>
+    <string name="measurable_units_example">napr. kilometre</string>
     <string name="every_month">Každý mesiac</string>
     <string name="validation_cannot_be_blank">Nemôže byť prázdne</string>
     <string name="today">Dnes</string>
+    <string name="enter">Zadať</string>
+    <string name="no_habits">Nenašli sa žiadne návyky</string>
+    <string name="no_numerical_habits">Nenašli sa žiadne merateľné návyky</string>
+    <string name="no_boolean_habits">Nenašli sa žiadne áno-alebo-nie návyky</string>
+    <string name="pref_skip_title">Povoliť preskočenie dní</string>
+    <string name="pref_skip_description">Dvojitým prepnutím pridáte namiesto začiarknutia preskočenie. Preskočenia udržia vaše skóre nezmenené a neprerušia vašu sériu.</string>
+    <string name="pref_unknown_title">Zobraziť otázniky pre chýbajúce údaje</string>
+    <string name="pref_unknown_description">Odlíšte dni bez údajov od skutočných prerušení. Ak chcete zadať prerušenie, dvakrát prepnite.</string>
+    <string name="you_are_now_a_developer">Teraz ste vývojár</string>
+    <string name="activity_not_found">Nenašla sa žiadna aplikácia podporujúca túto akciu</string>
+    <string name="pref_midnight_delay_title">Predĺžte deň o niekoľko hodín po polnoci</string>
+    <string name="pref_midnight_delay_description">Na zobrazenie nového dňa počkajte do 3:00. Užitočné, ak zvyčajne chodíte spať po polnoci. Vyžaduje reštart aplikácie.</string>
 </resources>

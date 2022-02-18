@@ -19,12 +19,12 @@
 package org.isoron.uhabits.core.preferences
 
 import org.isoron.platform.time.DayOfWeek
+import org.isoron.platform.utils.StringUtils.Companion.joinLongs
+import org.isoron.platform.utils.StringUtils.Companion.splitLongs
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.Timestamp
 import org.isoron.uhabits.core.ui.ThemeSwitcher
 import org.isoron.uhabits.core.utils.DateUtils.Companion.getFirstWeekdayNumberAccordingToLocale
-import org.isoron.uhabits.core.utils.StringUtils.Companion.joinLongs
-import org.isoron.uhabits.core.utils.StringUtils.Companion.splitLongs
 import java.util.LinkedList
 import kotlin.math.max
 import kotlin.math.min
@@ -205,9 +205,12 @@ open class Preferences(private val storage: Storage) {
             storage.putBoolean("pref_skip_enabled", value)
         }
 
-    fun areQuestionMarksEnabled(): Boolean {
-        return storage.getBoolean("pref_unknown_enabled", false)
-    }
+    var areQuestionMarksEnabled: Boolean
+        get() = storage.getBoolean("pref_unknown_enabled", false)
+        set(value) {
+            storage.putBoolean("pref_unknown_enabled", value)
+            for (l in listeners) l.onQuestionMarksChanged()
+        }
 
     /**
      * @return An integer representing the first day of the week. Sunday
@@ -240,6 +243,7 @@ open class Preferences(private val storage: Storage) {
     interface Listener {
         fun onCheckmarkSequenceChanged() {}
         fun onNotificationsChanged() {}
+        fun onQuestionMarksChanged() {}
     }
 
     interface Storage {
@@ -258,7 +262,7 @@ open class Preferences(private val storage: Storage) {
             putString(key, joinLongs(values))
         }
 
-        fun getLongArray(key: String, defValue: LongArray): LongArray? {
+        fun getLongArray(key: String, defValue: LongArray): LongArray {
             val string = getString(key, "")
             return if (string.isEmpty()) defValue else splitLongs(
                 string
