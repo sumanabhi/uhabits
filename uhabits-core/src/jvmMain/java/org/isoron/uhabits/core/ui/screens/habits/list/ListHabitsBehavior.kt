@@ -18,9 +18,10 @@
  */
 package org.isoron.uhabits.core.ui.screens.habits.list
 
-import org.isoron.platform.time.LocalDate
+import org.isoron.platform.gui.ScreenLocation
 import org.isoron.uhabits.core.commands.CommandRunner
 import org.isoron.uhabits.core.commands.CreateRepetitionCommand
+import org.isoron.uhabits.core.models.Frequency
 import org.isoron.uhabits.core.models.Habit
 import org.isoron.uhabits.core.models.HabitList
 import org.isoron.uhabits.core.models.HabitType
@@ -49,7 +50,7 @@ open class ListHabitsBehavior @Inject constructor(
         screen.showHabitScreen(h)
     }
 
-    fun onEdit(habit: Habit, timestamp: Timestamp?) {
+    fun onEdit(location: ScreenLocation, habit: Habit, timestamp: Timestamp?) {
         val entry = habit.computedEntries.get(timestamp!!)
         if (habit.type == HabitType.NUMERICAL) {
             val oldValue = entry.value.toDouble()
@@ -58,17 +59,17 @@ open class ListHabitsBehavior @Inject constructor(
                 habit.unit,
                 entry.notes,
                 timestamp.toDialogDateString(),
+                habit.frequency
             ) { newValue: Double, newNotes: String, ->
                 val value = (newValue * 1000).roundToInt()
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, value, newNotes))
             }
         } else {
-            screen.showCheckmarkDialog(
+            screen.showCheckmarkPopup(
                 entry.value,
                 entry.notes,
-                timestamp.toLocalDate(),
-                timestamp.toDialogDateString(),
                 habit.color,
+                location,
             ) { newValue, newNotes ->
                 commandRunner.run(CreateRepetitionCommand(habitList, habit, timestamp, newValue, newNotes))
             }
@@ -121,8 +122,7 @@ open class ListHabitsBehavior @Inject constructor(
         if (prefs.isFirstRun) onFirstRun()
     }
 
-    fun onToggle(habit: Habit, timestamp: Timestamp?, value: Int) {
-        val notes = habit.computedEntries.get(timestamp!!).notes
+    fun onToggle(habit: Habit, timestamp: Timestamp, value: Int, notes: String) {
         commandRunner.run(
             CreateRepetitionCommand(habitList, habit, timestamp, value, notes)
         )
@@ -167,17 +167,16 @@ open class ListHabitsBehavior @Inject constructor(
             unit: String,
             notes: String,
             dateString: String,
+            frequency: Frequency,
             callback: NumberPickerCallback
         )
-        fun showCheckmarkDialog(
+        fun showCheckmarkPopup(
             selectedValue: Int,
             notes: String,
-            date: LocalDate,
-            dateString: String,
             color: PaletteColor,
+            location: ScreenLocation,
             callback: CheckMarkDialogCallback
         )
-
         fun showSendBugReportToDeveloperScreen(log: String)
         fun showSendFileScreen(filename: String)
     }
